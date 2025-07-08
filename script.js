@@ -3,11 +3,15 @@ document.getElementById('checklistForm').addEventListener('submit', async (e) =>
 
   const room = document.getElementById('room').value;
   const formData = new FormData(e.target);
+  const date = document.getElementById('date').value;
+
   const data = {
     room,
     date: new Date().toISOString(),
     items: Object.fromEntries(formData.entries())
   };
+
+delete data.items.date; // remove duplicate from 'items'
 
   const res = await fetch('/submit-checklist', {
     method: 'POST',
