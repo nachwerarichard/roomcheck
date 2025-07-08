@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Room Checklist</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Hotel Room Checklist</h1>
+    <label for="room">Select Room:</label>
+    <select id="room">
+      <option value="">--Choose Room--</option>
+      <option value="101">Room 101</option>
+      <option value="102">Room 102</option>
+      <option value="103">Room 103</option>
+    </select>
+
+    <form id="checklistForm">
+      <div class="item">
+        <label>Towels:</label>
+        <input type="radio" name="towels" value="yes" required /> Yes
+        <input type="radio" name="towels" value="no" required /> No
+      </div>
+      <div class="item">
+        <label>Soap:</label>
+        <input type="radio" name="soap" value="yes" required /> Yes
+        <input type="radio" name="soap" value="no" required /> No
+      </div>
+      <div class="item">
+        <label>TV Remote:</label>
+        <input type="radio" name="tv_remote" value="yes" required /> Yes
+        <input type="radio" name="tv_remote" value="no" required /> No
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <p id="message"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
