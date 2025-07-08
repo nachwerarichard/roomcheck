@@ -5,27 +5,45 @@ const res = await fetch('https://roomcheckbackend.onrender.com', {
 });
 
 
-document.getElementById('checklistForm').addEventListener('submit', async (e) => {
+document.getElementById('checklistForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const room = document.getElementById('room').value;
-  const formData = new FormData(e.target);
-  const date = document.getElementById('date').value;
+  (async () => {
+    const room = document.getElementById('room').value;
+    const date = document.getElementById('date').value;
 
-  const data = {
-    room,
-    date: new Date().toISOString(),
-    items: Object.fromEntries(formData.entries())
-  };
+    if (!room || !date) {
+      document.getElementById('message').textContent = 'Please select a room and date.';
+      return;
+    }
 
-delete data.items.date; // remove duplicate from 'items'
+    const formData = new FormData(e.target);
+    const items = Object.fromEntries(formData.entries());
+    delete items.date; // remove duplicate
 
-  const res = await fetch('/submit-checklist', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
+    const data = {
+      room,
+      date,
+      items
+    };
 
-  const result = await res.json();
-  document.getElementById('message').textContent = result.message;
+    try {
+      const res = await fetch('https://roomcheckbackend.onrender.com/submit-checklist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      document.getElementById('message').textContent = result.message || 'Checklist submitted.';
+
+      if (result.emailSent) {
+        document.getElementById('message').textContent += ' Email sent for missing items.';
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      document.getElementById('message').textContent = 'An error occurred while submitting.';
+    }
+  })();
 });
