@@ -1,3 +1,10 @@
+const res = await fetch('https://roomcheckbackend.onrender.com', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
+
+
 document.getElementById('checklistForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
